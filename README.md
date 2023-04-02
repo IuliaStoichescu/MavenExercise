@@ -483,7 +483,7 @@ Also verify that the application works by running the following commands:
 java -jar target/hello-maven-0.1.0-SNAPSHOT.jar ro
 ```
 
-#### 3. Install a distribution af the application and be able to run the project from the command line
+#### 3. Install a distribution of the application and be able to run the project from the command line
 
 To install a distribution of the application, we will use a `shell script` for Linux and a `cmd` file for Windows.
 
