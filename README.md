@@ -481,6 +481,10 @@ java -jar %USERPROFILE%\.m2\repository\org\example\hello-maven\0.1.0-SNAPSHOT\he
 ```
 
 To install the distribution, we will use the `mvn clean install` lifecycle command. 
+```shell
+./mvnw clean install
+```
+
 This task will install the application in the local Maven repository.
 The local Maven repository is located in the `~/.m2/repository` folder on Linux and `%USERPROFILE%\.m2\repository` on Windows
 and the application will be installed in the `org/example/hello-maven/0.1.0-SNAPSHOT` folder.
