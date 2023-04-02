@@ -1,13 +1,13 @@
-# Gradle Hello World Starter
+# Maven Hello World Starter
 
-A template to start a new Gradle project from.
+A template to start a new Maven project from.
 
 ## Exercise
 
-Please follow the instructions to get started with the Gradle Exercise. In this exercise we will build a Java CLI
+Please follow the instructions to get started with the Maven Exercise. In this exercise we will build a Java CLI
 application
 that prints greets the user in different languages and outputs the text in different colors.
-We will display use Gradle to build the application, manage resources and manage dependencies.
+We will display use Maven to build the application, manage resources and manage dependencies.
 
 ### 1. Download the repository
 
@@ -52,7 +52,7 @@ In Java we can use [Jansi](https://github.com/fusesource/jansi) library to print
 
 #### 2.1. Add Jansi as a dependency
 
-To add the Jansi library as a dependency we need to add the following lines to the `build.gradle` file:
+To add the Jansi library as a dependency we need to add the following lines to the `pom.xml` file:
 To find the Jansi library on [Maven Central](https://search.maven.org/) we can search for `jansi`.
 The results will get you to this [link](https://central.sonatype.com/artifact/org.fusesource.jansi/jansi/2.4.0), from
 where you can also copy the dependency declaration:
@@ -92,7 +92,7 @@ public class Main {
 
 This will print the text `Hello World!` in red to the console.
 However, running the code with IntelliJ will not print the text in red. We need to run it from the terminal.
-To run the application from the terminal, we need to build it first. We will use Gradle to build the application.
+To run the application from the terminal, we need to build it first. We will use Maven to build the application.
 Follow the instructions in the next section to build the application.
 
 #### 2.3. Build the application
@@ -106,7 +106,7 @@ Run the following command in the terminal to build the application:
 
 This will create a `target` folder in the project's root folder. The `target` folder will contain the compiled classes
 and the JAR file.
-The JAR file will be located directly in the folder. The name of the JAR file will be `hello-gradle-0.1.0-SNAPSHOT.jar`.
+The JAR file will be located directly in the folder. The name of the JAR file will be `hello-maven-0.1.0-SNAPSHOT.jar`.
 The `target/classes` folder will contain the compiled classes. The `org.example.Main` class will be located in
 the `org/example` folder.
 
@@ -185,7 +185,7 @@ attribute.
 Try running the application again:
 
 ```shell script
-java -jar target/hello-gradle-0.1.0-SNAPSHOT.jar
+java -jar target/hello-maven-0.1.0-SNAPSHOT.jar
 ```
 
 However this will produce the same error message as before, becuase Jansi is not on the classpath:
@@ -228,8 +228,9 @@ To add the Jansi library to the classpath, we can add the following lines to the
 </build>
 ```
 
-This will create a `fat` JAR file, which contains all the dependencies. The file will be located
-at `target/hello-maven.jar`.
+This will create a `fat` JAR file, which contains all the dependencies. This also adds the `org.example.Main` class as the 
+entry point of the application (the `Main-Class` attribute in the `MANIFEST.MF` file).
+The file will be located at `target/hello-maven.jar`.
 
 Try running the application again:
 
@@ -508,34 +509,34 @@ use that language.
 
 #### 3. Install a distribution af the application and be able to run the project from the command line
 
-To install a distribution of the application, we will use the `application` plugin, which uses the `distribution`
-plugin:
+To install a distribution of the application, we will use a `shell script` for Linux and a `cmd` file for Windows.
+
+Create a `bin` directory in the root folder. This directory will contain the `shell script` and the `cmd` file.
+
+Create a `hello-gradle` file in the `bin` directory. This file will contain the following:
+```bash
+#!/usr/bin/env bash
+java -jar ~/.m2/repository/org/example/hello-maven/0.1.0-SNAPSHOT/hello-world-1.0-SNAPSHOT.jar "$@"
+```
+
+Create a `hello-gradle.cmd` file in the `bin` directory. This file will contain the following:
+```cmd
+@echo off
+java -jar %USERPROFILE%\.m2\repository\org\example\hello-maven\0.1.0-SNAPSHOT\hello-world-1.0-SNAPSHOT.jar %*
+```
+
+To install the distribution, we will use the `mvn clean install` lifecycle command. 
+This task will install the application in the local Maven repository.
+The local Maven repository is located in the `~/.m2/repository` folder on Linux and `%USERPROFILE%\.m2\repository` on Windows
+and the application will be installed in the `org/example/hello-maven/0.1.0-SNAPSHOT` folder.
+
+Add the `bin` folder to the `PATH` environment variable. To do this temporarily, you can run:
 
 ```bash
-./gradlew installDist
+export PATH=$PATH:$(pwd)/bin
 ```
-
-This will create a `build/install` folder, which will contain the distribution of the application.
-The build.install folder will contain the following structure:
-
-```txt
-build/install
-└── hello-gradle
-     ├── bin
-     │    ├── hello-gradle
-     │    └── hello-gradle.bat
-     └── lib
-          └── hello-gradle-0.1.0-SNAPSHOT.jar
-```
-
-Add the `build/install/hello-gradle/bin` folder to the `PATH` environment variable. To do this temporarily, you can run:
-
-```bash
-export PATH=$PATH:$(pwd)/build/install/hello-gradle/bin
-```
-
 This will allow us to run the application from the command line by just using it's name.
 
 ```bash
-hello-gradle
+hello-maven
 ```
