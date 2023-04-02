@@ -149,52 +149,7 @@ no main manifest attribute, in target/hello-maven-0.1.0-SNAPSHOT.jar
 
 This is because the JAR file does not contain the `Main-Class` attribute in the `MANIFEST.MF` file.
 We can fix this by adding the `Main-Class` attribute to the `MANIFEST.MF` file, which we do by adding the following
-lines
-in the `pom.xml` file:
-
-```xml
-
-<build>
-    <plugins>
-        <plugin>
-            <artifactId>maven-assembly-plugin</artifactId>
-            <configuration>
-                <archive>
-                    <manifest>
-                        <mainClass>org.example.Main</mainClass>
-                    </manifest>
-                </archive>
-            </configuration>
-            <executions>
-                <execution>
-                    <id>make-assembly</id>
-                    <phase>package</phase>
-                    <goals>
-                        <goal>single</goal>
-                    </goals>
-                </execution>
-            </executions>
-        </plugin>
-    </plugins>
-</build>
-```
-
-Now, when we run the `./mvnw clean package` task, the `MANIFEST.MF` file will be updated with the `Main-Class`
-attribute.
-
-Try running the application again:
-
-```shell script
-java -jar target/hello-maven-0.1.0-SNAPSHOT.jar
-```
-
-However this will produce the same error message as before, becuase Jansi is not on the classpath:
-
-```shell script
-Error: ClassNotFoundException org.fusesource.jansi.AnsiConsole not found
-```
-
-To add the Jansi library to the classpath, we can add the following lines to the `pom.xml` file:
+lines in the `pom.xml` file:
 
 ```xml
 
@@ -228,8 +183,8 @@ To add the Jansi library to the classpath, we can add the following lines to the
 </build>
 ```
 
-This will create a `fat` JAR file, which contains all the dependencies. This also adds the `org.example.Main` class as the 
-entry point of the application (the `Main-Class` attribute in the `MANIFEST.MF` file).
+This will create a `fat` JAR file, which contains all the dependencies (including the `org.fusesource.jansi:jansi:2.4.0` jar).
+This also adds the `org.example.Main` class as the entry point of the application (the `Main-Class` attribute in the `MANIFEST.MF` file).
 The file will be located at `target/hello-maven.jar`.
 
 Try running the application again:
