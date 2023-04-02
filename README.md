@@ -288,6 +288,16 @@ the `maven-assembly-plugin` plugin configuration:
 </plugin>
 ```
 
+Now verify that the application still works by running the `exec:java` task.
+```shell
+./mvnw exec:java
+```
+Also Verify that you can build and run your application:
+```shell
+./mvnw clean package
+java -jar target/hello-maven-0.1.0-SNAPSHOT.jar
+```
+
 #### 2.5. Develop Multi-Language Support in the Application
 
 We are going to use the first parameter of the application to specify the language that the application should greet the
@@ -309,7 +319,7 @@ Create the following files in the `src/main/resources` folder:
 ```properties
 greeting.text=Hallo
 greeting.color=black
-person.text=freunde
+person.text=Freunde
 person.color=yellow
 punctuation.text=?!
 punctuation.color=red
@@ -462,22 +472,38 @@ public class Main {
 By default, the application will use the `en` language. If a language is specified as a parameter, the application will
 use that language.
 
+Now verify that the application still works by running the `exec:java` task. Use all languages as parameters and see if the application prompts the correct greeting:
+```shell
+./mvnw exec:java -Dexec.args="ro"
+```
+
+Also verify that the application works by running the following commands:
+```shell
+./mvnw clean package
+java -jar target/hello-maven-0.1.0-SNAPSHOT.jar ro
+```
+
 #### 3. Install a distribution af the application and be able to run the project from the command line
 
 To install a distribution of the application, we will use a `shell script` for Linux and a `cmd` file for Windows.
 
 Create a `bin` directory in the root folder. This directory will contain the `shell script` and the `cmd` file.
 
-Create a `hello-gradle` file in the `bin` directory. This file will contain the following:
+Create a `hello-maven` file in the `bin` directory. This file will contain the following:
 ```bash
 #!/usr/bin/env bash
-java -jar ~/.m2/repository/org/example/hello-maven/0.1.0-SNAPSHOT/hello-world-1.0-SNAPSHOT.jar "$@"
+java -jar ~/.m2/repository/org/example/hello-maven/0.1.0-SNAPSHOT/hello-maven-0.1.0-SNAPSHOT.jar "$@"
 ```
 
-Create a `hello-gradle.cmd` file in the `bin` directory. This file will contain the following:
+Also make the `hello-maven` file executable:
+```bash
+chmod +x bin/hello-maven
+```
+
+Create a `hello-maven.cmd` file in the `bin` directory. This file will contain the following:
 ```cmd
 @echo off
-java -jar %USERPROFILE%\.m2\repository\org\example\hello-maven\0.1.0-SNAPSHOT\hello-world-1.0-SNAPSHOT.jar %*
+java -jar %USERPROFILE%\.m2\repository\org\example\hello-maven\0.1.0-SNAPSHOT\hello-maven-0.1.0-SNAPSHOT.jar %*
 ```
 
 To install the distribution, we will use the `mvn clean install` lifecycle command. 
