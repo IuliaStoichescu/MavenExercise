@@ -295,7 +295,7 @@ Now verify that the application still works by running the `exec:java` task.
 Also Verify that you can build and run your application:
 ```shell
 ./mvnw clean package
-java -jar target/hello-maven-0.1.0-SNAPSHOT.jar
+java -jar target/hello-maven.jar
 ```
 
 #### 2.5. Develop Multi-Language Support in the Application
@@ -480,7 +480,7 @@ Now verify that the application still works by running the `exec:java` task. Use
 Also verify that the application works by running the following commands:
 ```shell
 ./mvnw clean package
-java -jar target/hello-maven-0.1.0-SNAPSHOT.jar ro
+java -jar target/hello-maven.jar ro
 ```
 
 #### 3. Install a distribution of the application and be able to run the project from the command line
